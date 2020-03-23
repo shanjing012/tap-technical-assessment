@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Household {
+public class HouseholdEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -18,12 +18,15 @@ public class Household {
     @Enumerated(EnumType.STRING)
     private HouseholdType householdType;
 
-    @OneToMany(mappedBy = "household")
-    private List<Member> memberList;
+    @OneToMany(mappedBy = "householdEntity")
+    private List<MemberEntity> memberEntityList;
 
-    public Household(HouseholdType householdType) {
+    public HouseholdEntity() {
+    }
+
+    public HouseholdEntity(HouseholdType householdType) {
         this.householdType = householdType;
-        this.memberList = new ArrayList<>();
+        this.memberEntityList = new ArrayList<>();
     }
 
     public Long getId() {
@@ -42,20 +45,20 @@ public class Household {
         this.householdType = householdType;
     }
 
-    public List<Member> getMemberList() {
-        return memberList;
+    public List<MemberEntity> getMemberEntityList() {
+        return memberEntityList;
     }
 
-    public void setMemberList(List<Member> memberList) {
-        this.memberList = memberList;
+    public void setMemberEntityList(List<MemberEntity> memberEntityList) {
+        this.memberEntityList = memberEntityList;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Household household = (Household) o;
-        return Objects.equals(id, household.id);
+        HouseholdEntity householdEntity = (HouseholdEntity) o;
+        return Objects.equals(id, householdEntity.id);
     }
 
     @Override

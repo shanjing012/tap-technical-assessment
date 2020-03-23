@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-public class Member {
+public class MemberEntity {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -16,7 +16,7 @@ public class Member {
 
     @JoinColumn(nullable = false)
     @ManyToOne
-    private Household household;
+    private HouseholdEntity householdEntity;
 
     @Column(nullable = false)
     private String name;
@@ -31,7 +31,7 @@ public class Member {
 
     @JoinColumn(name = "spouse_id")
     @OneToOne
-    private Member spouse;
+    private MemberEntity spouse;
 
     @Column(nullable = false)
     private Integer annualIncome;
@@ -39,7 +39,10 @@ public class Member {
     @Column(nullable = false)
     private LocalDate dateOfBirth;
 
-    public Member(String name, Gender gender, MaritalStatus maritalStatus, Integer annualIncome, LocalDate dateOfBirth) {
+    public MemberEntity() {
+    }
+
+    public MemberEntity(String name, Gender gender, MaritalStatus maritalStatus, Integer annualIncome, LocalDate dateOfBirth) {
         this.name = name;
         this.gender = gender;
         this.maritalStatus = maritalStatus;
@@ -55,12 +58,12 @@ public class Member {
         this.id = id;
     }
 
-    public Household getHousehold() {
-        return household;
+    public HouseholdEntity getHouseholdEntity() {
+        return householdEntity;
     }
 
-    public void setHousehold(Household household) {
-        this.household = household;
+    public void setHouseholdEntity(HouseholdEntity householdEntity) {
+        this.householdEntity = householdEntity;
     }
 
     public String getName() {
@@ -87,11 +90,11 @@ public class Member {
         this.maritalStatus = maritalStatus;
     }
 
-    public Member getSpouse() {
+    public MemberEntity getSpouse() {
         return spouse;
     }
 
-    public void setSpouse(Member spouse) {
+    public void setSpouse(MemberEntity spouse) {
         this.spouse = spouse;
     }
 
@@ -115,7 +118,7 @@ public class Member {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Member member = (Member) o;
+        MemberEntity member = (MemberEntity) o;
         return Objects.equals(id, member.id);
     }
 
