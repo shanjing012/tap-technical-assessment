@@ -6,7 +6,6 @@ import com.assessment.entity.enums.HouseholdType;
 import com.assessment.model.Household;
 import com.assessment.model.Member;
 import com.assessment.repository.HouseholdRepository;
-import com.assessment.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -39,7 +38,7 @@ public class HouseholdService {
                         memberEntity.getName(),
                         memberEntity.getGender(),
                         memberEntity.getMaritalStatus(),
-                        memberEntity.getSpouse().getId(),
+                        memberEntity.getSpouse() != null ? memberEntity.getSpouse().getId() : null,
                         memberEntity.getAnnualIncome(),
                         memberEntity.getDateOfBirth()
                 );
@@ -59,7 +58,7 @@ public class HouseholdService {
                     memberEntity.getName(),
                     memberEntity.getGender(),
                     memberEntity.getMaritalStatus(),
-                    memberEntity.getSpouse().getId(),
+                    memberEntity.getSpouse() != null ? memberEntity.getSpouse().getId() : null,
                     memberEntity.getAnnualIncome(),
                     memberEntity.getDateOfBirth()
             );
@@ -72,4 +71,8 @@ public class HouseholdService {
         Optional<HouseholdEntity> optionalHouseholdEntity = householdRepository.findById(householdId);
         return optionalHouseholdEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid household ID"));
     }
+
+//    public List<Household> findHouseholdBasedOn(Integer maximumAge, Integer minimumAge, Boolean hasMarriedCouple, Integer householdSize, Integer totalIncome) {
+//
+//    }
 }
