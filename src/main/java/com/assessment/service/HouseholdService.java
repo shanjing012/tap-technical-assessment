@@ -104,10 +104,9 @@ public class HouseholdService {
     }
 
     public List<Household> getFamilyTogethernessSchemeRecipients(Long ageLessThan) {
-        List<HouseholdEntity> householdEntityList = householdRepository.selectFamilyTogethernessSchemeHousehold(ageLessThan);
+        List<HouseholdEntity> householdEntityList = householdRepository.selectFamilyTogethernessSchemeHouseholdv2(ageLessThan);
         List<Household> householdList = new ArrayList<>();
         for (HouseholdEntity householdEntity : householdEntityList) {
-            boolean hasChild = false;
 
             Household household = new Household(householdEntity.getId(), householdEntity.getHouseholdType());
             HashMap<Long, Member> spouseHashMap = new HashMap<>();
@@ -132,15 +131,12 @@ public class HouseholdService {
 
                 if(member.getDateOfBirth().until(LocalDate.now()).get(ChronoUnit.YEARS) < ageLessThan) {
                     household.getMemberList().add(member);
-                    hasChild = true;
                 } else if(spouseHashMap.containsKey(member.getSpouseId())) {
                     household.getMemberList().add(spouseHashMap.get(member.getSpouseId()));
                     household.getMemberList().add(member);
                 }
             }
-
-            if(hasChild)
-                householdList.add(household);
+            householdList.add(household);
         }
         return householdList;
     }
