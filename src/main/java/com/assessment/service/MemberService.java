@@ -2,6 +2,7 @@ package com.assessment.service;
 
 import com.assessment.entity.HouseholdEntity;
 import com.assessment.entity.MemberEntity;
+import com.assessment.entity.enums.MaritalStatus;
 import com.assessment.model.Member;
 import com.assessment.repository.HouseholdRepository;
 import com.assessment.repository.MemberRepository;
@@ -39,8 +40,11 @@ public class MemberService {
             //within persistence context, can set
 
             //dont make 3 people marry each other
-            if(spouseEntity.getSpouse() != null)
+            //if new married, divorce the prev member i guess
+            if(spouseEntity.getSpouse() != null) {
+                spouseEntity.getSpouse().setMaritalStatus(MaritalStatus.DIVORCED);
                 spouseEntity.getSpouse().setSpouse(null);
+            }
 
             memberEntity.setSpouse(spouseEntity);
             spouseEntity.setSpouse(memberEntity);
