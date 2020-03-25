@@ -46,15 +46,35 @@ public class ApiController {
         return householdService.findHousehold(householdId);
     }
 
-    @GetMapping("studentEncouragementBonusGrant")
+    @GetMapping("studentEncouragementBonus")
     @ApiOperation("Search for family members within households eligible for Student Encouragement Bonus")
-    public List<Household> getStudentEncouragementBonusGrantRecipients(@RequestParam Long ageLessThan, @RequestParam Long annualIncomeLessThan) {
+    public List<Household> getStudentEncouragementBonusRecipients(@RequestParam Long ageLessThan, @RequestParam Long annualIncomeLessThan) {
         return householdService.getStudentEncouragementBonusRecipients(ageLessThan, annualIncomeLessThan);
     }
 
-    @GetMapping("familyTogethernessSchemeGrant")
+    @GetMapping("familyTogethernessScheme")
     @ApiOperation("Search for family members within households eligible for Family Togetherness Scheme")
-    public List<Household> getFamilyTogethernessSchemeGrantRecipients(@RequestParam Long ageLessThan) {
+    public List<Household> getFamilyTogethernessSchemeRecipients(@RequestParam Long ageLessThan) {
         return householdService.getFamilyTogethernessSchemeRecipients(ageLessThan);
+    }
+
+    @GetMapping("elderBonus")
+    @ApiOperation("Search for family members within households eligible for Elder Bonus")
+    public List<Household> getElderBonusRecipients(@RequestParam Long ageMoreThan) {
+        return householdService.getElderBonusRecipients(ageMoreThan);
+    }
+
+    @GetMapping("babySunshineGrant")
+    @ApiOperation("Search for family members within households eligible for Baby Sunshine Grant")
+    public List<Household> getBabySunshineGrantRecipients(@RequestParam Long ageLessThan) {
+//        return householdService.getBabySunshineGrantRecipients(ageLessThan);
+        throw new UnsupportedOperationException("unsupported");
+    }
+
+    @GetMapping("yoloGstGrant")
+    @ApiOperation("Search for family members within households eligible for YOLO GST Grant")
+    public List<Household> getYoloGSTGrantRecipients(@RequestParam Long ageLessThan) {
+//        return householdService.getYoloGSTGrantRecipients(ageLessThan);
+        throw new UnsupportedOperationException("unsupported");
     }
 }
