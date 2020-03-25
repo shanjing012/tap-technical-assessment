@@ -35,7 +35,7 @@ public class MemberService {
         );
 
         //find member to ensure it exists (family can stay apart but be spouse)
-        if(member.getSpouseId() != null) {
+        if(member.getSpouseId() != null && member.getSpouseId() != 0) {
             MemberEntity spouseEntity = findMemberEntity(member.getSpouseId());
             //within persistence context, can set
 
@@ -45,6 +45,9 @@ public class MemberService {
                 spouseEntity.getSpouse().setMaritalStatus(MaritalStatus.DIVORCED);
                 spouseEntity.getSpouse().setSpouse(null);
             }
+
+            memberEntity.setMaritalStatus(MaritalStatus.MARRIED);
+            spouseEntity.setMaritalStatus(MaritalStatus.MARRIED);
 
             memberEntity.setSpouse(spouseEntity);
             spouseEntity.setSpouse(memberEntity);
