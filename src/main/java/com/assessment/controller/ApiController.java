@@ -67,14 +67,12 @@ public class ApiController {
     @GetMapping("babySunshineGrant")
     @ApiOperation("Search for family members within households eligible for Baby Sunshine Grant")
     public List<Household> getBabySunshineGrantRecipients(@RequestParam Long ageLessThan) {
-//        return householdService.getBabySunshineGrantRecipients(ageLessThan);
-        throw new UnsupportedOperationException("unsupported");
+        return householdService.getBabySunshineGrantRecipients(ageLessThan);
     }
 
     @GetMapping("yoloGstGrant")
     @ApiOperation("Search for family members within households eligible for YOLO GST Grant")
-    public List<Household> getYoloGSTGrantRecipients(@RequestParam Long ageLessThan) {
-//        return householdService.getYoloGSTGrantRecipients(ageLessThan);
-        throw new UnsupportedOperationException("unsupported");
+    public List<Household> getYoloGSTGrantRecipients(@RequestParam Long annualIncomeLessThan) {
+        return householdService.getYoloGSTGrantRecipients(annualIncomeLessThan);
     }
 }

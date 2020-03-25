@@ -23,9 +23,6 @@ import java.util.stream.Collectors;
 public class HouseholdService {
 
     @Autowired
-    EntityManager entityManager;
-
-    @Autowired
     private HouseholdRepository householdRepository;
 
     //create household, return household id
@@ -169,15 +166,46 @@ public class HouseholdService {
     }
 
     public List<Household> getBabySunshineGrantRecipients(Long ageLessThan) {
-//        List<Object> householdAndMemberEntityList = householdRepository.selectElderBonusHousehold(ageMoreThan);
-//        for
-        return new ArrayList<>();
+        List<HouseholdEntity> householdEntityList = householdRepository.selectBabySunshineGrantHousehold(ageLessThan);
+        List<Household> householdList = new ArrayList<>();
+        for (HouseholdEntity householdEntity : householdEntityList) {
+            Household household = new Household(householdEntity.getId(), householdEntity.getHouseholdType());
+            household.setMemberList(householdEntity.getMemberEntityList()
+                    .stream()
+                    .filter(memberEntity -> memberEntity.getDateOfBirth().until(LocalDate.now()).get(ChronoUnit.YEARS) < ageLessThan)
+                    .map(memberEntity -> new Member(
+                            memberEntity.getId(),
+                            memberEntity.getName(),
+                            memberEntity.getGender(),
+                            memberEntity.getMaritalStatus(),
+                            memberEntity.getSpouse() != null ? memberEntity.getSpouse().getId() : null,
+                            memberEntity.getAnnualIncome(),
+                            memberEntity.getDateOfBirth()
+                    )).collect(Collectors.toList()));
+            householdList.add(household);
+        }
+        return householdList;
     }
 
-    public List<Household> getYoloGSTGrantRecipients(Long ageMoreThan) {
-//        List<Object> householdAndMemberEntityList = householdRepository.selectElderBonusHousehold(ageMoreThan);
-//        for
-        return new ArrayList<>();
+    public List<Household> getYoloGSTGrantRecipients(Long annualIncomeLessThan) {
+        List<HouseholdEntity> householdEntityList = householdRepository.selectYoloGSTGrantHousehold(annualIncomeLessThan);
+        List<Household> householdList = new ArrayList<>();
+        for (HouseholdEntity householdEntity : householdEntityList) {
+            Household household = new Household(householdEntity.getId(), householdEntity.getHouseholdType());
+            household.setMemberList(householdEntity.getMemberEntityList()
+                    .stream()
+                    .map(memberEntity -> new Member(
+                            memberEntity.getId(),
+                            memberEntity.getName(),
+                            memberEntity.getGender(),
+                            memberEntity.getMaritalStatus(),
+                            memberEntity.getSpouse() != null ? memberEntity.getSpouse().getId() : null,
+                            memberEntity.getAnnualIncome(),
+                            memberEntity.getDateOfBirth()
+                    )).collect(Collectors.toList()));
+            householdList.add(household);
+        }
+        return householdList;
     }
 
 }
