@@ -37,6 +37,7 @@ public class HouseholdService {
     public List<Household> findAllHousehold() {
         List<HouseholdEntity> householdEntityList = householdRepository.findAll();
         List<Household> householdList = new ArrayList<>();
+        // For each household, convert its details + member details
         for (HouseholdEntity householdEntity : householdEntityList) {
             Household household = new Household(householdEntity.getId(), householdEntity.getHouseholdType());
             for (MemberEntity memberEntity : householdEntity.getMemberEntityList()) {
@@ -59,6 +60,7 @@ public class HouseholdService {
     public Household findHousehold(Long householdId) {
         HouseholdEntity householdEntity = findHouseholdEntity(householdId);
         Household household = new Household(householdEntity.getId(), householdEntity.getHouseholdType());
+        // For the household, convert its details and the member details
         for (MemberEntity memberEntity : householdEntity.getMemberEntityList()) {
             Member member = new Member(
                     memberEntity.getId(),
@@ -83,7 +85,7 @@ public class HouseholdService {
         List<HouseholdEntity> householdEntityList = householdRepository.selectStudentEncouragementBonusHousehold(ageLessThan, annualIncomeLessThan);
         List<Household> householdList = new ArrayList<>();
         for (HouseholdEntity householdEntity : householdEntityList) {
-            //Convert householdentity to household and populate members who are less than {ageLessThan} years old
+            //Convert household entity to household and populate members who are less than {ageLessThan} years old
             Household household = new Household(householdEntity.getId(), householdEntity.getHouseholdType());
             //Filter members who are less than 16 years old
             household.setMemberList(householdEntity.getMemberEntityList()
@@ -107,9 +109,10 @@ public class HouseholdService {
         List<HouseholdEntity> householdEntityList = householdRepository.selectFamilyTogethernessSchemeHouseholdV2(ageLessThan);
         List<Household> householdList = new ArrayList<>();
         for (HouseholdEntity householdEntity : householdEntityList) {
-
-            Household household = new Household(householdEntity.getId(), householdEntity.getHouseholdType());
+            //Create spouse hash map to store members who are married
             HashMap<Long, Member> spouseHashMap = new HashMap<>();
+            //Convert household and household members
+            Household household = new Household(householdEntity.getId(), householdEntity.getHouseholdType());
             List<Member> memberList = householdEntity.getMemberEntityList()
                     .stream()
                     .map(memberEntity -> new Member(
@@ -121,18 +124,20 @@ public class HouseholdService {
                             memberEntity.getAnnualIncome(),
                             memberEntity.getDateOfBirth()
                     )).collect(Collectors.toList());
-
             //Filter members who are less than {ageLessThan} years old
             //Or are married to another member of the family
             for (Member member : memberList) {
-                //if married, add member to hash map
-                if(member.getSpouseId() != null && member.getMaritalStatus() == MaritalStatus.MARRIED)
-                    spouseHashMap.put(member.getId(), member);
-
-                if(member.getDateOfBirth().until(LocalDate.now()).get(ChronoUnit.YEARS) < ageLessThan) {
-                    household.getMemberList().add(member);
-                } else if(spouseHashMap.containsKey(member.getSpouseId())) {
-                    household.getMemberList().add(spouseHashMap.get(member.getSpouseId()));
+                //if married:
+                if(member.getSpouseId() != null && member.getMaritalStatus() == MaritalStatus.MARRIED) {
+                    //if spouseHashMap does not contain member's spouse, add him to spouseHashMap
+                    //else, take both members and add them to the household list
+                    if(!spouseHashMap.containsKey(member.getSpouseId()))
+                        spouseHashMap.put(member.getId(), member);
+                    else {
+                        household.getMemberList().add(spouseHashMap.get(member.getSpouseId()));
+                        household.getMemberList().add(member);
+                    }
+                } else if(member.getDateOfBirth().until(LocalDate.now()).get(ChronoUnit.YEARS) < ageLessThan) {
                     household.getMemberList().add(member);
                 }
             }
@@ -163,7 +168,7 @@ public class HouseholdService {
         return householdList;
     }
 
-    public List<Household> getBabySunshineGrantRecipients(Long ageMoreThan) {
+    public List<Household> getBabySunshineGrantRecipients(Long ageLessThan) {
 //        List<Object> householdAndMemberEntityList = householdRepository.selectElderBonusHousehold(ageMoreThan);
 //        for
         return new ArrayList<>();
