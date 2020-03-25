@@ -7,6 +7,8 @@ import com.assessment.service.HouseholdService;
 import com.assessment.service.MemberService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,27 +24,31 @@ public class ApiController {
 
     @PostMapping("/household")
     @ApiOperation("Create Household")
-    private String createHousehold(@RequestParam HouseholdType householdType) {
+    public String createHousehold(@RequestParam HouseholdType householdType) {
         return "Successfully created household: ID " + householdService.createHousehold(householdType);
     }
 
     @PostMapping("/member")
     @ApiOperation("Add Member to Household")
-    private String createMember(@RequestBody AddMemberToHouseholdRequest addMemberToHouseholdRequest) {
+    public String createMember(@RequestBody AddMemberToHouseholdRequest addMemberToHouseholdRequest) {
         return "Successfully created member: ID " + memberService.createHouseholdMember(addMemberToHouseholdRequest.getHouseholdId(), addMemberToHouseholdRequest.getMember());
     }
 
     @GetMapping("/household")
     @ApiOperation("Create Household")
-    private List<Household> getAllHousehold() {
+    public List<Household> getAllHousehold() {
         return householdService.findAllHousehold();
     }
 
     @GetMapping("/household/{householdId}")
     @ApiOperation("Add Member to Household")
-    private Household getHousehold(@PathVariable Long householdId) {
+    public Household getHousehold(@PathVariable Long householdId) {
         return householdService.findHousehold(householdId);
     }
 
-
+    @GetMapping("studentEncouragementBonusGrant")
+    @ApiOperation("Search for family members within households eligible for Student Encouragement Bonus")
+    public List<Household> searchHousehold(@RequestParam Long ageLessThan, @RequestParam Long annualIncomeLessThan) {
+        return householdService.showStudentEncouragementBonusRecipients(ageLessThan, annualIncomeLessThan);
+    }
 }
