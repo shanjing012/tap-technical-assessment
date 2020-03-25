@@ -51,6 +51,7 @@ public interface HouseholdRepository extends JpaRepository<HouseholdEntity, Long
             "SELECT h FROM HouseholdEntity h " +
                     "INNER JOIN h.memberEntityList m " +
                     "WHERE CAST(DATE_FORMAT(FROM_DAYS(DATEDIFF(now(), m.dateOfBirth)), '%Y') as long) > :age " +
+                    "AND h.householdType = 'HDB' " +
                     "GROUP BY h.id"
     )
     List<HouseholdEntity> selectElderBonusHousehold(Long age);
@@ -65,6 +66,7 @@ public interface HouseholdRepository extends JpaRepository<HouseholdEntity, Long
 
     @Query(
             "SELECT h FROM HouseholdEntity h INNER JOIN h.memberEntityList m " +
+                    "WHERE h.householdType = 'HDB' " +
                     "GROUP BY h.id " +
                     "HAVING CAST(SUM(m.annualIncome) as long) < :annualIncome"
     )

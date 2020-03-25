@@ -59,7 +59,7 @@ public class ApiController {
     }
 
     @GetMapping("elderBonus")
-    @ApiOperation("Search for family members within households eligible for Elder Bonus")
+    @ApiOperation("Search for family members within HDB households eligible for Elder Bonus")
     public List<Household> getElderBonusRecipients(@RequestParam Long ageMoreThan) {
         return householdService.getElderBonusRecipients(ageMoreThan);
     }
@@ -71,7 +71,7 @@ public class ApiController {
     }
 
     @GetMapping("yoloGstGrant")
-    @ApiOperation("Search for family members within households eligible for YOLO GST Grant")
+    @ApiOperation("Search for family members within HDB households eligible for YOLO GST Grant")
     public List<Household> getYoloGSTGrantRecipients(@RequestParam Long annualIncomeLessThan) {
         return householdService.getYoloGSTGrantRecipients(annualIncomeLessThan);
     }
