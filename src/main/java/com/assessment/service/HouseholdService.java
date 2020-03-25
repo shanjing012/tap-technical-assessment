@@ -25,10 +25,20 @@ public class HouseholdService {
     @Autowired
     private HouseholdRepository householdRepository;
 
+    @Autowired
+    private MemberService memberService;
+
     //create household, return household id
     public Long createHousehold(HouseholdType householdType) {
         HouseholdEntity householdEntity = new HouseholdEntity(householdType);
         return householdRepository.save(householdEntity).getId();
+    }
+
+    //create household, return household id
+    public void deleteHousehold(Long householdId) {
+        HouseholdEntity householdEntity = findHouseholdEntity(householdId);
+        memberService.deleteMemberList(householdEntity.getMemberEntityList());
+        householdRepository.delete(householdEntity);
     }
 
     public List<Household> findAllHousehold() {

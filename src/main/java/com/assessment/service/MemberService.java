@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -63,5 +64,19 @@ public class MemberService {
     public MemberEntity findMemberEntity(Long memberId) {
         Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
         return optionalMemberEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid member ID"));
+    }
+
+    public void deleteMember(Long memberId, MaritalStatus maritalStatus) {
+        MemberEntity memberEntity = findMemberEntity(memberId);
+        if(memberEntity.getSpouse() != null && maritalStatus != null) {
+            memberEntity.getSpouse().setSpouse(null);
+            memberEntity.getSpouse().setMaritalStatus(maritalStatus);
+        } else
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please provide member's spouse's new marital status");
+        memberRepository.delete(memberEntity);
+    }
+
+    public void deleteMemberList(List<MemberEntity> memberEntityList) {
+        memberRepository.deleteAll(memberEntityList);
     }
 }

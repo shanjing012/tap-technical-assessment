@@ -5,8 +5,9 @@
 - [x] create/view household
 - [x] update/view household
 - [x] grants api
-- [ ] delete member (need reason, update spouse)
-- [ ] delete household
+- [x] delete member (need reason, update spouse)
+- [x] delete household
+- [ ] member entity to member mapper (reuse code)
 - [ ] readme documentation
 - [ ] readme setup instruction
 - [ ] testing?
@@ -15,9 +16,9 @@
 
 _To be done_
 
-## Other Information
+_mysql - run createDbScripts.sql for mysql_
 
-_Are there any? To be done_
+_server - navigate to project directory and do run mvn spring-boot:run_
 
 ## Assumptions
 
