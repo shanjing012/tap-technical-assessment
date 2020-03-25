@@ -35,13 +35,13 @@ public class ApiController {
     }
 
     @GetMapping("/household")
-    @ApiOperation("Create Household")
+    @ApiOperation("Show all Households")
     public List<Household> getAllHousehold() {
         return householdService.findAllHousehold();
     }
 
     @GetMapping("/household/{householdId}")
-    @ApiOperation("Add Member to Household")
+    @ApiOperation("Show a Household")
     public Household getHousehold(@PathVariable Long householdId) {
         return householdService.findHousehold(householdId);
     }
