@@ -48,7 +48,13 @@ public class ApiController {
 
     @GetMapping("studentEncouragementBonusGrant")
     @ApiOperation("Search for family members within households eligible for Student Encouragement Bonus")
-    public List<Household> searchHousehold(@RequestParam Long ageLessThan, @RequestParam Long annualIncomeLessThan) {
-        return householdService.showStudentEncouragementBonusRecipients(ageLessThan, annualIncomeLessThan);
+    public List<Household> getStudentEncouragementBonusGrantRecipients(@RequestParam Long ageLessThan, @RequestParam Long annualIncomeLessThan) {
+        return householdService.getStudentEncouragementBonusRecipients(ageLessThan, annualIncomeLessThan);
+    }
+
+    @GetMapping("familyTogethernessSchemeGrant")
+    @ApiOperation("Search for family members within households eligible for Family Togetherness Scheme")
+    public List<Household> getFamilyTogethernessSchemeGrantRecipients(@RequestParam Long ageLessThan) {
+        return householdService.getFamilyTogethernessSchemeRecipients(ageLessThan);
     }
 }
