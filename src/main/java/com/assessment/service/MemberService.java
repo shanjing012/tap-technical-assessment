@@ -4,7 +4,6 @@ import com.assessment.entity.HouseholdEntity;
 import com.assessment.entity.MemberEntity;
 import com.assessment.entity.enums.MaritalStatus;
 import com.assessment.model.Member;
-import com.assessment.repository.HouseholdRepository;
 import com.assessment.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
