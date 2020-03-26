@@ -6,8 +6,6 @@ import com.assessment.entity.enums.MaritalStatus;
 import com.assessment.model.Member;
 import com.assessment.repository.HouseholdRepository;
 import com.assessment.repository.MemberRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -63,35 +61,35 @@ class HouseholdServiceTest {
         assertEquals(0, memberRepository.findAll().size());
     }
 
-    @Test
-    void findAllHousehold() {
-    }
-
-    @Test
-    void findHousehold() {
-    }
-
-    @Test
-    void findHouseholdEntity() {
-    }
-
-    @Test
-    void getStudentEncouragementBonusRecipients() {
-    }
-
-    @Test
-    void getFamilyTogethernessSchemeRecipients() {
-    }
-
-    @Test
-    void getElderBonusRecipients() {
-    }
-
-    @Test
-    void getBabySunshineGrantRecipients() {
-    }
-
-    @Test
-    void getYoloGSTGrantRecipients() {
-    }
+//    @Test
+//    void findAllHousehold() {
+//    }
+//
+//    @Test
+//    void findHousehold() {
+//    }
+//
+//    @Test
+//    void findHouseholdEntity() {
+//    }
+//
+//    @Test
+//    void getStudentEncouragementBonusRecipients() {
+//    }
+//
+//    @Test
+//    void getFamilyTogethernessSchemeRecipients() {
+//    }
+//
+//    @Test
+//    void getElderBonusRecipients() {
+//    }
+//
+//    @Test
+//    void getBabySunshineGrantRecipients() {
+//    }
+//
+//    @Test
+//    void getYoloGSTGrantRecipients() {
+//    }
 }
