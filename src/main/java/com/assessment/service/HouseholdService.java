@@ -75,7 +75,8 @@ public class HouseholdService {
     }
 
     public List<Household> getStudentEncouragementBonusRecipients(Long ageLessThan, Long annualIncomeLessThan) {
-        List<HouseholdEntity> householdEntityList = householdRepository.selectStudentEncouragementBonusHousehold(ageLessThan, annualIncomeLessThan);
+        LocalDate today = LocalDate.now();
+        List<HouseholdEntity> householdEntityList = householdRepository.selectStudentEncouragementBonusHousehold(today.minusYears(ageLessThan), annualIncomeLessThan);
         List<Household> householdList = new ArrayList<>();
         for (HouseholdEntity householdEntity : householdEntityList) {
             //Convert household entity to household and populate members who are less than {ageLessThan} years old
@@ -92,7 +93,8 @@ public class HouseholdService {
     }
 
     public List<Household> getFamilyTogethernessSchemeRecipients(Long ageLessThan) {
-        List<HouseholdEntity> householdEntityList = householdRepository.selectFamilyTogethernessSchemeHouseholdV2(ageLessThan);
+        LocalDate today = LocalDate.now();
+        List<HouseholdEntity> householdEntityList = householdRepository.selectFamilyTogethernessSchemeHouseholdV2(today.minusYears(ageLessThan));
         List<Household> householdList = new ArrayList<>();
         for (HouseholdEntity householdEntity : householdEntityList) {
             //Create spouse hash map to store members who are married
@@ -126,7 +128,8 @@ public class HouseholdService {
     }
 
     public List<Household> getElderBonusRecipients(Long ageMoreThan) {
-        List<HouseholdEntity> householdEntityList = householdRepository.selectElderBonusHousehold(ageMoreThan);
+        LocalDate today = LocalDate.now();
+        List<HouseholdEntity> householdEntityList = householdRepository.selectElderBonusHousehold(today.minusYears(ageMoreThan));
         List<Household> householdList = new ArrayList<>();
         for (HouseholdEntity householdEntity : householdEntityList) {
             Household household = new Household(householdEntity.getId(), householdEntity.getHouseholdType());
@@ -141,7 +144,8 @@ public class HouseholdService {
     }
 
     public List<Household> getBabySunshineGrantRecipients(Long ageLessThan) {
-        List<HouseholdEntity> householdEntityList = householdRepository.selectBabySunshineGrantHousehold(ageLessThan);
+        LocalDate today = LocalDate.now();
+        List<HouseholdEntity> householdEntityList = householdRepository.selectBabySunshineGrantHousehold(today.minusYears(ageLessThan));
         List<Household> householdList = new ArrayList<>();
         for (HouseholdEntity householdEntity : householdEntityList) {
             Household household = new Household(householdEntity.getId(), householdEntity.getHouseholdType());
