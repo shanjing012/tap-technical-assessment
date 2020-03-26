@@ -78,8 +78,8 @@ public class ApiController {
     }
 
     @DeleteMapping("member")
-    @ApiOperation("Delete a family member (Provide the family member's spouse's new marital if applicable)")
-    public void deleteMember(@RequestParam Long memberId, @RequestParam MaritalStatus spouseMaritalStatus) {
+    @ApiOperation("Delete a family member (Provide the family member's spouse's new marital status if applicable)")
+    public void deleteMember(@RequestParam Long memberId, @RequestParam(required = false) MaritalStatus spouseMaritalStatus) {
         memberService.deleteMember(memberId, spouseMaritalStatus);
     }
 
