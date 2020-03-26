@@ -122,7 +122,7 @@ class HouseholdServiceTest {
 
     @Test
     public void getYoloGSTGrantRecipients() {
-        List<Household> householdList = householdService.getBabySunshineGrantRecipients(5L);
+        List<Household> householdList = householdService.getYoloGSTGrantRecipients(100000L);
         assertEquals(3, householdList.size());
     }
 

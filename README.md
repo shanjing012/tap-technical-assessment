@@ -40,3 +40,5 @@
 
 - Returns only **HDB** households with total annual income strictly less than the provided total annual income `(100000)`
 - Returns all family members of the household
+
+##### PS. Tests are just used to check for code logic, they are not meant to be comprehensive test cases for the entire project.
