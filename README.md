@@ -1,23 +1,10 @@
 # tap-technical-assessment
 
-## todo list for technical assessment
-
-- [x] create/view household
-- [x] update/view household
-- [x] grants api
-- [ ] delete member (need reason, update spouse)
-- [ ] delete household
-- [ ] readme documentation
-- [ ] readme setup instruction
-- [ ] testing?
-
 ## Setup Instructions
 
-_To be done_
-
-## Other Information
-
-_Are there any? To be done_
+1. Use `createDbScripts.sql` to set up the database.
+2. Navigate to project directory and use the `mvn spring-boot:run` to start the server
+3. Endpoints can be viewed at http://localhost:8083/swagger-ui.html#/
 
 ## Assumptions
 

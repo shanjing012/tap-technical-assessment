@@ -4,6 +4,7 @@ import com.assessment.entity.HouseholdEntity;
 import com.assessment.entity.MemberEntity;
 import com.assessment.entity.enums.HouseholdType;
 import com.assessment.entity.enums.MaritalStatus;
+import com.assessment.mapper.MemberMapper;
 import com.assessment.model.Household;
 import com.assessment.model.Member;
 import com.assessment.repository.HouseholdRepository;
@@ -12,11 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -25,10 +27,20 @@ public class HouseholdService {
     @Autowired
     private HouseholdRepository householdRepository;
 
+    @Autowired
+    private MemberService memberService;
+
     //create household, return household id
     public Long createHousehold(HouseholdType householdType) {
         HouseholdEntity householdEntity = new HouseholdEntity(householdType);
         return householdRepository.save(householdEntity).getId();
+    }
+
+    //create household, return household id
+    public void deleteHousehold(Long householdId) {
+        HouseholdEntity householdEntity = findHouseholdEntity(householdId);
+        memberService.deleteMemberList(householdEntity.getMemberEntityList());
+        householdRepository.delete(householdEntity);
     }
 
     public List<Household> findAllHousehold() {
@@ -38,15 +50,7 @@ public class HouseholdService {
         for (HouseholdEntity householdEntity : householdEntityList) {
             Household household = new Household(householdEntity.getId(), householdEntity.getHouseholdType());
             for (MemberEntity memberEntity : householdEntity.getMemberEntityList()) {
-                Member member = new Member(
-                        memberEntity.getId(),
-                        memberEntity.getName(),
-                        memberEntity.getGender(),
-                        memberEntity.getMaritalStatus(),
-                        memberEntity.getSpouse() != null ? memberEntity.getSpouse().getId() : null,
-                        memberEntity.getAnnualIncome(),
-                        memberEntity.getDateOfBirth()
-                );
+                Member member = MemberMapper.toModel.apply(memberEntity);
                 household.getMemberList().add(member);
             }
             householdList.add(household);
@@ -59,15 +63,7 @@ public class HouseholdService {
         Household household = new Household(householdEntity.getId(), householdEntity.getHouseholdType());
         // For the household, convert its details and the member details
         for (MemberEntity memberEntity : householdEntity.getMemberEntityList()) {
-            Member member = new Member(
-                    memberEntity.getId(),
-                    memberEntity.getName(),
-                    memberEntity.getGender(),
-                    memberEntity.getMaritalStatus(),
-                    memberEntity.getSpouse() != null ? memberEntity.getSpouse().getId() : null,
-                    memberEntity.getAnnualIncome(),
-                    memberEntity.getDateOfBirth()
-            );
+            Member member = MemberMapper.toModel.apply(memberEntity);
             household.getMemberList().add(member);
         }
         return household;
@@ -88,15 +84,8 @@ public class HouseholdService {
             household.setMemberList(householdEntity.getMemberEntityList()
                     .stream()
                     .filter(memberEntity -> memberEntity.getDateOfBirth().until(LocalDate.now()).get(ChronoUnit.YEARS) < ageLessThan)
-                    .map(memberEntity -> new Member(
-                            memberEntity.getId(),
-                            memberEntity.getName(),
-                            memberEntity.getGender(),
-                            memberEntity.getMaritalStatus(),
-                            memberEntity.getSpouse() != null ? memberEntity.getSpouse().getId() : null,
-                            memberEntity.getAnnualIncome(),
-                            memberEntity.getDateOfBirth()
-                    )).collect(Collectors.toList()));
+                    .map(MemberMapper.toModel)
+                    .collect(Collectors.toList()));
             householdList.add(household);
         }
         return householdList;
@@ -112,15 +101,8 @@ public class HouseholdService {
             Household household = new Household(householdEntity.getId(), householdEntity.getHouseholdType());
             List<Member> memberList = householdEntity.getMemberEntityList()
                     .stream()
-                    .map(memberEntity -> new Member(
-                            memberEntity.getId(),
-                            memberEntity.getName(),
-                            memberEntity.getGender(),
-                            memberEntity.getMaritalStatus(),
-                            memberEntity.getSpouse() != null ? memberEntity.getSpouse().getId() : null,
-                            memberEntity.getAnnualIncome(),
-                            memberEntity.getDateOfBirth()
-                    )).collect(Collectors.toList());
+                    .map(MemberMapper.toModel)
+                    .collect(Collectors.toList());
             //Filter members who are less than {ageLessThan} years old
             //Or are married to another member of the family
             for (Member member : memberList) {
@@ -151,15 +133,8 @@ public class HouseholdService {
             household.setMemberList(householdEntity.getMemberEntityList()
                     .stream()
                     .filter(memberEntity -> memberEntity.getDateOfBirth().until(LocalDate.now()).get(ChronoUnit.YEARS) > ageMoreThan)
-                    .map(memberEntity -> new Member(
-                            memberEntity.getId(),
-                            memberEntity.getName(),
-                            memberEntity.getGender(),
-                            memberEntity.getMaritalStatus(),
-                            memberEntity.getSpouse() != null ? memberEntity.getSpouse().getId() : null,
-                            memberEntity.getAnnualIncome(),
-                            memberEntity.getDateOfBirth()
-                    )).collect(Collectors.toList()));
+                    .map(MemberMapper.toModel)
+                    .collect(Collectors.toList()));
             householdList.add(household);
         }
         return householdList;
@@ -173,15 +148,8 @@ public class HouseholdService {
             household.setMemberList(householdEntity.getMemberEntityList()
                     .stream()
                     .filter(memberEntity -> memberEntity.getDateOfBirth().until(LocalDate.now()).get(ChronoUnit.YEARS) < ageLessThan)
-                    .map(memberEntity -> new Member(
-                            memberEntity.getId(),
-                            memberEntity.getName(),
-                            memberEntity.getGender(),
-                            memberEntity.getMaritalStatus(),
-                            memberEntity.getSpouse() != null ? memberEntity.getSpouse().getId() : null,
-                            memberEntity.getAnnualIncome(),
-                            memberEntity.getDateOfBirth()
-                    )).collect(Collectors.toList()));
+                    .map(MemberMapper.toModel)
+                    .collect(Collectors.toList()));
             householdList.add(household);
         }
         return householdList;
@@ -194,15 +162,8 @@ public class HouseholdService {
             Household household = new Household(householdEntity.getId(), householdEntity.getHouseholdType());
             household.setMemberList(householdEntity.getMemberEntityList()
                     .stream()
-                    .map(memberEntity -> new Member(
-                            memberEntity.getId(),
-                            memberEntity.getName(),
-                            memberEntity.getGender(),
-                            memberEntity.getMaritalStatus(),
-                            memberEntity.getSpouse() != null ? memberEntity.getSpouse().getId() : null,
-                            memberEntity.getAnnualIncome(),
-                            memberEntity.getDateOfBirth()
-                    )).collect(Collectors.toList()));
+                    .map(MemberMapper.toModel)
+                    .collect(Collectors.toList()));
             householdList.add(household);
         }
         return householdList;

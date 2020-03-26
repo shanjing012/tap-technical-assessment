@@ -1,14 +1,13 @@
 package com.assessment.controller;
 
 import com.assessment.entity.enums.HouseholdType;
+import com.assessment.entity.enums.MaritalStatus;
 import com.assessment.model.Household;
 import com.assessment.request.AddMemberToHouseholdRequest;
 import com.assessment.service.HouseholdService;
 import com.assessment.service.MemberService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -74,5 +73,17 @@ public class ApiController {
     @ApiOperation("Search for family members within HDB households eligible for YOLO GST Grant")
     public List<Household> getYoloGSTGrantRecipients(@RequestParam Long annualIncomeLessThan) {
         return householdService.getYoloGSTGrantRecipients(annualIncomeLessThan);
+    }
+
+    @DeleteMapping("member")
+    @ApiOperation("Delete a family member (Provide the family member's spouse's new marital status if applicable)")
+    public void deleteMember(@RequestParam Long memberId, @RequestParam(required = false) MaritalStatus spouseMaritalStatus) {
+        memberService.deleteMember(memberId, spouseMaritalStatus);
+    }
+
+    @DeleteMapping("household")
+    @ApiOperation("Delete a household and all associated family members")
+    public void deleteHousehold(@RequestParam Long householdId) {
+        householdService.deleteHousehold(householdId);
     }
 }
