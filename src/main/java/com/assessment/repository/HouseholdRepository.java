@@ -23,7 +23,7 @@ public interface HouseholdRepository extends JpaRepository<HouseholdEntity, Long
             "SELECT h FROM HouseholdEntity h INNER JOIN h.memberEntityList m " +
                     "GROUP BY h.id " +
                     "HAVING CAST(SUM(m.annualIncome) as long) < :annualIncome " +
-                    "AND m.dateOfBirth > :age"
+                    "AND MAX(m.dateOfBirth) > :age"
     )
     List<HouseholdEntity> selectStudentEncouragementBonusHousehold(LocalDate age, Long annualIncome);
 
@@ -56,7 +56,7 @@ public interface HouseholdRepository extends JpaRepository<HouseholdEntity, Long
                     "AND m1.maritalStatus = 'MARRIED' " +
                     "AND m2.maritalStatus = 'MARRIED' " +
                     "GROUP BY h.id " +
-                    "HAVING MIN(m.dateOfBirth) > :age"
+                    "HAVING MAX(m.dateOfBirth) > :age"
     )
     List<HouseholdEntity> selectFamilyTogethernessSchemeHouseholdV2(LocalDate age);
 

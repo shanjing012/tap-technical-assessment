@@ -69,17 +69,6 @@ class MemberServiceTest {
         member2 = memberRepository.save(member2);
     }
 
-    @AfterEach
-    public void clearDatabase() {
-        householdEntity = null;
-        member1 = null;
-        member2 = null;
-        member3 = null;
-        member4 = null;
-        memberRepository.deleteAll();
-        householdRepository.deleteAll();
-    }
-
     @Test
     void createHouseholdMember() {
         int householdMemberCount = householdService.findHouseholdEntity(householdEntity.getId()).getMemberEntityList().size();
