@@ -14,11 +14,9 @@
 
 ## Setup Instructions
 
-_To be done_
-
-_mysql - run createDbScripts.sql for mysql_
-
-_server - navigate to project directory and do run mvn spring-boot:run_
+1. Use `createDbScripts.sql` to set up the database.
+2. Navigate to project directory and use the `mvn spring-boot:run` to start the server
+3. Endpoints can be viewed at http://localhost:8083/swagger-ui.html#/
 
 ## Assumptions
 
