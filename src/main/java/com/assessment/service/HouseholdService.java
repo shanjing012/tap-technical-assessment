@@ -135,7 +135,7 @@ public class HouseholdService {
             Household household = new Household(householdEntity.getId(), householdEntity.getHouseholdType());
             household.setMemberList(householdEntity.getMemberEntityList()
                     .stream()
-                    .filter(memberEntity -> memberEntity.getDateOfBirth().until(LocalDate.now()).get(ChronoUnit.YEARS) > ageMoreThan)
+                    .filter(memberEntity -> !memberEntity.getDateOfBirth().until(LocalDate.now()).minusYears(ageMoreThan).isNegative())
                     .map(MemberMapper.toModel)
                     .collect(Collectors.toList()));
             householdList.add(household);
