@@ -67,14 +67,17 @@ public class MemberService {
 
     public void deleteMember(Long memberId, MaritalStatus maritalStatus) {
         MemberEntity memberEntity = findMemberEntity(memberId);
-        if(memberEntity.getSpouse() != null && maritalStatus != null) {
-            memberEntity.getSpouse().setSpouse(null);
-            memberEntity.getSpouse().setMaritalStatus(maritalStatus);
-        } else
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please provide member's spouse's new marital status");
+        if(memberEntity.getSpouse() != null)
+            if(maritalStatus != null) {
+                memberEntity.getSpouse().setSpouse(null);
+                memberEntity.getSpouse().setMaritalStatus(maritalStatus);
+            } else
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please provide member's spouse's new marital status");
+        memberEntity.getHouseholdEntity().getMemberEntityList().remove(memberEntity);
         memberRepository.delete(memberEntity);
     }
 
+    /** disassociate first **/
     public void deleteMemberList(List<MemberEntity> memberEntityList) {
         memberRepository.deleteAll(memberEntityList);
     }
