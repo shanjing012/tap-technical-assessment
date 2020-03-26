@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
@@ -84,7 +85,7 @@ public class HouseholdService {
             //Filter members who are less than 16 years old
             household.setMemberList(householdEntity.getMemberEntityList()
                     .stream()
-                    .filter(memberEntity -> memberEntity.getDateOfBirth().until(LocalDate.now()).get(ChronoUnit.YEARS) < ageLessThan)
+                    .filter(memberEntity -> memberEntity.getDateOfBirth().until(LocalDate.now()).minusYears(ageLessThan).isNegative())
                     .map(MemberMapper.toModel)
                     .collect(Collectors.toList()));
             householdList.add(household);
@@ -118,7 +119,7 @@ public class HouseholdService {
                         household.getMemberList().add(spouseHashMap.get(member.getSpouseId()));
                         household.getMemberList().add(member);
                     }
-                } else if(member.getDateOfBirth().until(LocalDate.now()).get(ChronoUnit.YEARS) < ageLessThan) {
+                } else if(member.getDateOfBirth().until(LocalDate.now()).minusYears(ageLessThan).isNegative()) {
                     household.getMemberList().add(member);
                 }
             }
@@ -151,7 +152,7 @@ public class HouseholdService {
             Household household = new Household(householdEntity.getId(), householdEntity.getHouseholdType());
             household.setMemberList(householdEntity.getMemberEntityList()
                     .stream()
-                    .filter(memberEntity -> memberEntity.getDateOfBirth().until(LocalDate.now()).get(ChronoUnit.YEARS) < ageLessThan)
+                    .filter(memberEntity -> memberEntity.getDateOfBirth().until(LocalDate.now()).minusYears(ageLessThan).isNegative())
                     .map(MemberMapper.toModel)
                     .collect(Collectors.toList()));
             householdList.add(household);

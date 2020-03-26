@@ -70,7 +70,7 @@ class MemberServiceTest {
     }
 
     @Test
-    void createHouseholdMember() {
+    public void createHouseholdMember() {
         int householdMemberCount = householdService.findHouseholdEntity(householdEntity.getId()).getMemberEntityList().size();
         Long newMemberId = memberService.createHouseholdMember(householdEntity.getId(), new Member(
                 0L,
@@ -86,13 +86,13 @@ class MemberServiceTest {
     }
 
     @Test
-    void findMemberEntity() {
+    public void findMemberEntity() {
         MemberEntity tempMember = memberService.findMemberEntity(member2.getId());
         assertEquals(member2.getName(), tempMember.getName());
     }
 
     @Test
-    void deleteMemberFather() {
+    public void deleteMemberFather() {
         memberService.deleteMember(member1.getId(), MaritalStatus.WIDOWED);
         member2 = memberService.findMemberEntity(member2.getId());
         assertNull(member2.getSpouse());
@@ -100,7 +100,7 @@ class MemberServiceTest {
     }
 
     @Test
-    void deleteMemberSon() {
+    public void deleteMemberSon() {
         int householdMemberCount = householdEntity.getMemberEntityList().size();
         memberService.deleteMember(member3.getId(), null);
         assertEquals(householdMemberCount - 1, householdRepository.findById(householdEntity.getId()).get().getMemberEntityList().size());
