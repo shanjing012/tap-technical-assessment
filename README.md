@@ -1,17 +1,5 @@
 # tap-technical-assessment
 
-## todo list for technical assessment
-
-- [x] create/view household
-- [x] update/view household
-- [x] grants api
-- [x] delete member (need reason, update spouse)
-- [x] delete household
-- [ ] member entity to member mapper (reuse code)
-- [ ] readme documentation
-- [ ] readme setup instruction
-- [ ] testing?
-
 ## Setup Instructions
 
 1. Use `createDbScripts.sql` to set up the database.
