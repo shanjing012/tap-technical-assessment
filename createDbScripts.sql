@@ -10,6 +10,8 @@ grant all on technical_assessment.* to 'technical_assessment_user'@'localhost';
 
 flush privileges;
 
+SET GLOBAL time_zone = "+08:00";
+
 CREATE TABLE technical_assessment.`household_entity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `household_type` varchar(255) NOT NULL,
